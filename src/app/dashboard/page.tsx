@@ -4,9 +4,14 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Plus, Package, Edit, Trash2, LogOut, X } from 'lucide-react';
 
-// Mock auth functions - replace with your actual auth implementation
+// Auth helper functions
 const getToken = () => typeof window !== 'undefined' ? localStorage.getItem('authToken') : null;
 const removeToken = () => typeof window !== 'undefined' && localStorage.removeItem('authToken');
+
+// Error message helper
+const getErrorMessage = (error: unknown): string => {
+  return error instanceof Error ? error.message : 'Unknown error';
+};
 
 interface Product {
   id: number;
@@ -54,13 +59,15 @@ export default function InventoryDashboard() {
       if (response.ok) {
         const data = await response.json();
         console.log('Fetched products:', data);
-        setProducts(data);
+        setProducts(Array.isArray(data) ? data : []);
       } else {
         const errorData = await response.json();
         console.error('Error fetching products:', errorData);
+        setProducts([]);
       }
     } catch (error) {
-      console.error('Error fetching products:', error);
+      console.error('Error fetching products:', getErrorMessage(error));
+      setProducts([]);
     } finally {
       setLoading(false);
     }
@@ -115,7 +122,7 @@ export default function InventoryDashboard() {
       }
     } catch (error) {
       console.error('Error adding product:', error);
-      alert(`Failed to add product: ${error.message}`);
+      alert(`Failed to add product: ${getErrorMessage(error)}`);
     } finally {
       setLoading(false);
     }
@@ -153,10 +160,13 @@ export default function InventoryDashboard() {
         setEditingProduct(null);
         resetForm();
         alert('Product updated successfully!');
+      } else {
+        const errorData = await response.json();
+        alert(`Failed to update product: ${errorData.message || 'Unknown error'}`);
       }
     } catch (error) {
       console.error('Error updating product:', error);
-      alert('Failed to update product');
+      alert(`Failed to update product: ${getErrorMessage(error)}`);
     } finally {
       setLoading(false);
     }
@@ -165,9 +175,15 @@ export default function InventoryDashboard() {
   const handleDeleteProduct = async (id: number) => {
     if (!confirm('Are you sure you want to delete this product?')) return;
     
+    const token = getToken();
+    if (!token) {
+      alert('You are not logged in. Please login first.');
+      window.location.href = '/login';
+      return;
+    }
+
     setLoading(true);
     try {
-      const token = getToken();
       const response = await fetch(`https://midterm-output-1.onrender.com/inventory/${id}`, {
         method: 'DELETE',
         headers: {
@@ -179,10 +195,13 @@ export default function InventoryDashboard() {
       if (response.ok) {
         await fetchProducts();
         alert('Product deleted successfully!');
+      } else {
+        const errorData = await response.json();
+        alert(`Failed to delete product: ${errorData.message || 'Unknown error'}`);
       }
     } catch (error) {
       console.error('Error deleting product:', error);
-      alert('Failed to delete product');
+      alert(`Failed to delete product: ${getErrorMessage(error)}`);
     } finally {
       setLoading(false);
     }
@@ -244,7 +263,7 @@ export default function InventoryDashboard() {
       }
     } catch (error) {
       console.error('Error withdrawing product:', error);
-      alert(`Failed to withdraw product: ${error.message}`);
+      alert(`Failed to withdraw product: ${getErrorMessage(error)}`);
     } finally {
       setLoading(false);
     }
