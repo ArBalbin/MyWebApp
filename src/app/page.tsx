@@ -23,7 +23,7 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-              MyWebApp
+              MyInventorySystem
             </h1>
 
             <div className="flex items-center gap-4">
@@ -51,7 +51,7 @@ export default function HomePage() {
         <h1 className="text-5xl md:text-6xl font-extrabold mb-6">
           Welcome to{' '}
           <span className="bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">
-            MyWebApp
+            MyInventorySystem
           </span>
         </h1>
 
@@ -66,7 +66,7 @@ export default function HomePage() {
             onClick={() => router.push('/register')}
             className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-lg px-8"
           >
-            Get Started Free
+            Get Started 
           </Button>
 
           <Button

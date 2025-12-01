@@ -70,9 +70,9 @@ export default function RegisterPage() {
         {/* Logo/Brand */}
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent mb-2">
-            MyWebApp
+            MyInventorySystem
           </h1>
-          <p className="text-gray-200">Create your account and get started today.</p>
+          <p className="text-gray-200">Create your account and get started.</p>
         </div>
 
         <Card className="bg-gray-900/70 shadow-xl border-0 backdrop-blur-md">

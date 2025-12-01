@@ -64,7 +64,7 @@ export default function LoginPage() {
         {/* Logo/Brand */}
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent mb-2">
-            MyWebApp
+            MyInventorySystem
           </h1>
           <p className="text-gray-200">Welcome back! Please login to your account.</p>
         </div>
